@@ -174,8 +174,8 @@ BigNum giaithua(int n) {
 int main()
 {
 	BigNum a, b, c;
-	a = "99999999999";
-	b = "999999999999";
+	cin >> a;
+	cin >> b;
 	c = a * b;
 	cout << c;
 	do
