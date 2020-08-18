@@ -182,7 +182,7 @@ int main()
 	c = a * b;
 	cout << c;
 	do
-		cout << "\nPress any key to continue";
+		cout << "\nPress any key to continue ";
 	while (_getch() == 0);
 	return 0;
 }
