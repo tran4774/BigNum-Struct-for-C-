@@ -3,7 +3,7 @@ Bignum Struct c++
 Writter : Nguyễn Bảo Trấn
 Nation: Viet Nam
 Date : 01/04/2020 11:39 PM
-Last Edited : 17/07/2020 11:00 PM
+Last Edited : GMT+7 18/08/2020 2:52 PM
 */
 #include <bits/stdc++.h>
 #include <conio.h>
