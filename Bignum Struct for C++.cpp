@@ -120,21 +120,18 @@ struct BigNum {
 	}
 	BigNum operator * (const BigNum& b) {
 		BigNum Result;
-		int size_of_a = (int)this->Number.size(), size_of_b = (int)b.Number.size(), size_of_Result = size_of_a + size_of_b;
-		Result.Number.resize(size_of_Result);
-		long long carry = 0;
-		for (int i = 0; i < size_of_b; i++) {
-			if (b.Number[i] == 0)
+		Result.Number.resize(this->Number.size() + b.Number.size());
+		for (register auto i = b.Number.begin(), endb = b.Number.end(); i != endb; ++i) {
+			if (*i == 0)
 				continue;
-			carry = 0;
-			int location;
-			for (int j = 0; j < size_of_a; j++) {
-				location = i + j;
-				carry += (long long)(this->Number[j]) * (long long)(b.Number[i]) + Result.Number[location];
-				Result.Number[location] = carry % base;
+			long long carry = 0;
+			register auto location = Result.Number.begin() + (i - b.Number.begin());
+			for (register auto j = this->Number.begin(), enda = this->Number.end(); j != enda; ++j, ++location) {
+				carry += (long long)(*j) * (long long)(*i) + (long long)(*location);
+				*(location) = carry % base;
 				carry /= base;
 			}
-			if (carry) Result.Number[location + 1] += carry;
+			if (carry) *(location) += (int)carry;
 		}
 		Result.trim();
 		return Result;
@@ -151,7 +148,7 @@ struct BigNum {
 		int size_of_Result = (int)this->Number.size();
 		for (int i = size_of_Result - 1; i >= 0; i--) {
 			carry = carry * base + Result.Number[i];
-			Result.Number[i] = carry / v;
+			Result.Number[i] = int(carry / v);
 			carry %= v;
 		}
 		Result.trim();
@@ -177,8 +174,8 @@ BigNum giaithua(int n) {
 int main()
 {
 	BigNum a, b, c;
-	cin >> a;
-	cin >> b;
+	a = "99999999999";
+	b = "999999999999";
 	c = a * b;
 	cout << c;
 	do
