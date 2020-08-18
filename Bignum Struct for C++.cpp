@@ -120,18 +120,19 @@ struct BigNum {
 	}
 	BigNum operator * (const BigNum& b) {
 		BigNum Result;
-		Result.Number.resize(this->Number.size() + b.Number.size());
-		for (register auto i = b.Number.begin(), endb = b.Number.end(); i != endb; ++i) {
-			if (*i == 0)
-				continue;
-			long long carry = 0;
-			register auto location = Result.Number.begin() + (i - b.Number.begin());
-			for (register auto j = this->Number.begin(), enda = this->Number.end(); j != enda; ++j, ++location) {
-				carry += (long long)(*j) * (long long)(*i) + (long long)(*location);
-				*(location) = carry % base;
-				carry /= base;
+		int size_of_a = (int)this->Number.size(), size_of_b = (int)b.Number.size(), size_of_Result = size_of_a + size_of_b;
+		Result.Number.resize(size_of_Result);
+		for (register int i = 0; i < size_of_b; ++i) {
+			if (b.Number[i] != 0) {
+				long long carry = 0;
+				register int location = i;
+				for (register int j = 0; j < size_of_a; ++j, ++location) {
+					carry += (long long)(this->Number[j]) * (long long)(b.Number[i]) + Result.Number[location];
+					Result.Number[location] = carry % base;
+					carry /= base;
+				}
+				if (carry) Result.Number[location] += (int)carry;
 			}
-			if (carry) *(location) += (int)carry;
 		}
 		Result.trim();
 		return Result;
@@ -173,11 +174,14 @@ BigNum giaithua(int n) {
 
 int main()
 {
-	BigNum a, b, c;
-	cin >> a;
-	cin >> b;
-	c = a * b;
-	cout << c;
+	BigNum res;
+	int n;
+	cin >> n;
+	int start = clock();
+	res = giaithua(n);
+	int end = clock();
+	cout << res;
+	cout << endl << end - start;
 	do
 		cout << "\nPress any key to continue ";
 	while (_getch() == 0);
